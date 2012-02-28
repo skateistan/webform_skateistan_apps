@@ -18,35 +18,6 @@ function _webform_skateistan_apps_hr_address() {
   return "hr@skateistan.org";
 }
 
-function multipart_enc_text($name, $value){
-  return "Content-Disposition: form-data; name=\"$name\"\r\n\r\n$value\r\n";
-}
-
-function multipart_enc_file($name, $path){
-  if (substr($path, 0, 1) == "@") $path = substr($path, 1);
-  $filename = basename($path);
-  $mimetype = "application/octet-stream";
-  $data = "Content-Disposition: form-data; name=\"$name\"; filename=\"$filename\"\r\n";
-  $data .= "Content-Transfer-Encoding: binary\r\n";
-  $data .= "Content-Type: $mimetype\r\n\r\n";
-  $data .= file_get_contents($path) . "\r\n";
-  return $data;
-}
-
-function http_build_multipart($boundary, $params) {
-  $output = "";
-  foreach ($params as $key => $value) {
-    $output .= "--$boundary\r\n";
-    if ($key == 'cv') {
-      $output .= multipart_enc_file($key, $value);
-    } else {
-      $output .= multipart_enc_text ($key, $value);
-    }
-  }
-  $output .= "--$boundary--";
-  return $output;
-}
-
 function _webform_skateistan_apps_submit_ia($node, $submission) {
   $hook_url = "http://skateistanappreceiver.heroku.com/a/";
   $mapping = _webform_skateistan_apps_webform_component_mapping($node);
@@ -81,18 +52,17 @@ function _webform_skateistan_apps_submit_ia($node, $submission) {
       if ($cv) $attachments[] = $cv;
     }
   }
+  if ($cv) $note .= "Link to CV file: http://skateistan.org/" . $cv->filepath;
 
   $data = array(
     "name" => $name,
     "email" => $email,
-    "note" => $note,
-    "cv" => $cv->filepath
+    "note" => $note
   );
 
   // Send the application
-  $boundary = "d3J4Uq";
-  $headers = array("Content-Type" => "multipart/form-data; boundary=$boundary");
-  $response = drupal_http_request($hook_url, $headers, "POST", http_build_multipart($boundary, $data));
+  $headers = array("Content-Type" => "application/x-www-form-urlencoded");
+  $response = drupal_http_request($hook_url, $headers, "POST", http_build_query($data, null, '&'));
   $url = $response->data; // Expected to be: https://skateistan.highrisehq.com/people/{id}
   _webform_skateistan_apps_send_ia_hr_email($url, $data, $attachments);
 }
