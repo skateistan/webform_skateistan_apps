@@ -18,6 +18,15 @@ function _webform_skateistan_apps_hr_address() {
   return "hr@skateistan.org";
 }
 
+function _webform_skateistan_apps_process_checkboxes($data) {
+  $result = "";
+  if ($data && $data['value']) {
+    $modified = str_replace('_', ' ', $data['value']);
+    $result = implode(", ", $modified);
+  }
+  return $result;
+}
+
 function _webform_skateistan_apps_submit_ia($node, $submission) {
   $hook_url = "http://skateistanappreceiver.heroku.com/a/";
   $mapping = _webform_skateistan_apps_webform_component_mapping($node);
@@ -25,9 +34,10 @@ function _webform_skateistan_apps_submit_ia($node, $submission) {
   $position = $submission->data[$mapping['position']]['value'][0];
   $name = $submission->data[$mapping['name']]['value'][0];
   $email = $submission->data[$mapping['email']]['value'][0];
+  $skills = _webform_skateistan_apps_process_checkboxes($submission->data[$mapping['skills']]);
 
   $note = "Intern Application: \n\n";
-  $note .= "Position: " . $submission->data[$mapping['position']]['value'][0] . "\n\n";
+  $note .= "Position: " . _webform_skateistan_apps_process_checkboxes($submission->data[$mapping['position']]) . "\n\n";
   $note .= "Name: " . $name . "\n\n";
   $note .= "Email: " . $email . "\n\n";
   $note .= "Address:\n" . $submission->data[$mapping['address']]['value'][0] . "\n\n";
@@ -36,7 +46,7 @@ function _webform_skateistan_apps_submit_ia($node, $submission) {
   $note .= "Nationality: " . $submission->data[$mapping['nationality_ies']]['value'][0] . "\n\n";
   $note .= "Languages: " . $submission->data[$mapping['languages']]['value'][0] . "\n\n";
   $note .= "What appeals to you about the Skateistan project?\n" . $submission->data[$mapping['appeals']]['value'][0] . "\n\n";
-  $note .= "What skills do you have that will help us deliver our programs to Afghan youth?\n" . $submission->data[$mapping['skills']]['value'][0] . "\n\n";
+  $note .= "What skills do you have that will help us deliver our programs to young people?\n" . $skills . "\n\n";
   $note .= "Have you worked for a small organisation or NGO before?\n" . $submission->data[$mapping['ngo']]['value'][0] . "\n\n";
   $note .= "Have you worked with children before?\n" . $submission->data[$mapping['children']]['value'][0] . "\n\n";
   $note .= "Have you travelled to developing or Muslim countries before?\n" . $submission->data[$mapping['developing']]['value'][0] . "\n\n";
@@ -57,7 +67,8 @@ function _webform_skateistan_apps_submit_ia($node, $submission) {
   $data = array(
     "name" => $name,
     "email" => $email,
-    "note" => $note
+    "note" => $note,
+    "skills" => $skills
   );
 
   // Send the application
