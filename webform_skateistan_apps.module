@@ -35,6 +35,9 @@ function _webform_skateistan_apps_submit_ia($node, $submission) {
   $name = $submission->data[$mapping['name']]['value'][0];
   $email = $submission->data[$mapping['email']]['value'][0];
   $skills = _webform_skateistan_apps_process_checkboxes($submission->data[$mapping['skills']]);
+  if ($submission->data[$mapping['other_skills']]['value']) {
+    $skills .= ", " . $submission->data[$mapping['other_skills']]['value'][0];
+  }
 
   $note = "Intern Application: \n\n";
   $note .= "Position: " . _webform_skateistan_apps_process_checkboxes($submission->data[$mapping['position']]) . "\n\n";
