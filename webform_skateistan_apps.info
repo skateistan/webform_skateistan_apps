@@ -3,3 +3,4 @@ description = Implements modifications to the webform submission process for Ska
 core = 6.x
 package = Webform
 dependencies[] = webform
+dependencies[] = mimemail
