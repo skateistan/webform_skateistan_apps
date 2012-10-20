@@ -132,7 +132,7 @@ function _webform_skateistan_apps_submit_rva($node, $submission) {
 
 function _webform_skateistan_apps_send_rva_hr_email($url, $data) {
   $from_address = _webform_skateistan_apps_from_address();
-  $to_address = _webform_skateistan_apps_hr_recipients() . ", robin@skateistan.org";
+  $to_address = _webform_skateistan_apps_hr_recipients() . ", erika@skateistan.org";
   $subject = "Remote Volunteer Application";
   $message = "Remote Volunteer Application submitted by " . $data["name"] . ":\n\n";
   $message .= "Applicant has been saved in Highrise: " . $url . "\n\n";
