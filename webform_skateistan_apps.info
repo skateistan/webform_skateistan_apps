@@ -1,6 +1,6 @@
 name = Webform Skateistan Application Mods
 description = Implements modifications to the webform submission process for Skatestian intern/volunteer applications
-core = 6.x
+core = 7.x
 package = Webform
 dependencies[] = webform
 dependencies[] = mimemail
