@@ -101,8 +101,6 @@ function _webform_skateistan_apps_send_ia_hr_email($url, $data, $attachments) {
   $params["body"] = $message;
   $params['attachments'] = $attachments;
   $message = drupal_mail("webform_skateistan_apps", "ia_hr", $to_address, language_default(), $params, $from_address, $send = TRUE);
-
-
 }
 
 function _webform_skateistan_apps_submit_rva($node, $submission) {
@@ -128,12 +126,9 @@ function _webform_skateistan_apps_submit_rva($node, $submission) {
   );
   // Send the application
   $options = array(
-    'headers' => array(),
+    'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
     'method' => 'POST',
     'data' => http_build_query($data)
-  );
-  $options['headers'] = array(
-    'Content-Type' => 'application/x-www-form-urlencoded',
   );
 
   $response = drupal_http_request($hook_url, $options);
