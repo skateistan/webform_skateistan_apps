@@ -15,7 +15,7 @@ function webform_skateistan_apps_webform_submission_insert($node, $submission) {
 }
 
 function _webform_skateistan_apps_hr_recipients() {
-  return "hr@skateistan.org";
+  return "hr@skateistan.org, erika@skateistan.org";
 }
 
 function _webform_skateistan_apps_from_address() {
@@ -138,7 +138,7 @@ function _webform_skateistan_apps_submit_rva($node, $submission) {
 
 function _webform_skateistan_apps_send_rva_hr_email($url, $data) {
   $from_address = _webform_skateistan_apps_from_address();
-  $to_address = _webform_skateistan_apps_hr_recipients() . ", erika@skateistan.org";
+  $to_address = _webform_skateistan_apps_hr_recipients();
   $subject = "Remote Volunteer Application";
   $message = "Remote Volunteer Application submitted by " . $data["name"] . ":\r\n\n";
   $message .= "Applicant has been saved in Highrise: " . $url . "\r\n\n";
