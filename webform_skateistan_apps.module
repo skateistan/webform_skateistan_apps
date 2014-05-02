@@ -32,7 +32,7 @@ function _webform_skateistan_apps_process_checkboxes($data) {
 }
 
 function _webform_skateistan_apps_submit_ia($node, $submission) {
-  $hook_url = "http://skateistanappreceiver.heroku.com/a/";
+  $hook_url = "http://skateistanappreceiver.herokuapp.com/a/";
   $mapping = _webform_skateistan_apps_webform_component_mapping($node);
 
   $position = $submission->data[$mapping['position']]['value'][0];
@@ -104,7 +104,7 @@ function _webform_skateistan_apps_send_ia_hr_email($url, $data, $attachments) {
 }
 
 function _webform_skateistan_apps_submit_rva($node, $submission) {
-  $hook_url = 'http://skateistanappreceiver.heroku.com/rva/';
+  $hook_url = 'http://skateistanappreceiver.herokuapp.com/rva/';
   $mapping = _webform_skateistan_apps_webform_component_mapping($node);
   $name = $submission->data[$mapping['name']]['value'][0];
   $email = $submission->data[$mapping['email']]['value'][0];
